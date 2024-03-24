@@ -9,7 +9,7 @@
 import sys
 import math
 
-print ("--- 2-dim K-NN model : euclidean distance를 이용하여 변수 K에 대한 data 정리 ---")
+print ("--- 2-dim K-R model : euclidean distance를 이용하여 변수 K에 대한 data 정리 ---")
 print ("공백을 기준으로 object tuple 작성 : ")
 obj_x, obj_y = map(float, sys.stdin.readline().split())
 
