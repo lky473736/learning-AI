@@ -2,6 +2,7 @@
 - (1) hongong/FAQ.md 1~13번에 대한 해설
 - (2) 블로그 자료 (LR, SVM, DT, RF)에 대한 해설
 - (3) RNN과 LSTM에 대한 개괄
+- (4) /report/classification_abalone.ipynb에 대한 피드백
 
 (1)
 - 일반적 프로그래밍과 머신러닝 프로그래밍과의 차이 : 규칙 (rule)의 수동 입력? 자동 입력?
@@ -28,3 +29,9 @@
 (3) 
 - back progation에서 역전파 시 기울기 소실이 발생 (미분이 계속 진행되다가 0이 됨) 
 - 최근 사실을 까먹음 (short term loss) -> LSTM 탄생 (long & short term) -> GPU 사용 (속도를 계산한 것 : GRU)
+
+(4) 
+- heatmap 그릴 시에 label에 대한 상관관계가 제일 중요, 따라서 모든 attribute에 대한 상관관계를 시각화할 것
+    - 왜냐면, label에 상관관계가 높은 feature들만 selection하여 모델의 score을 높일 수도 있기 때문
+- 가장 중요한 건 label의 도수가 일정한 지를 확인하기 위한 bar plot
+- feature를 과다 사용하면 overfitting이 일어날 수 있기 때문에 score가 낮을 시에는 feature selection이 필요
