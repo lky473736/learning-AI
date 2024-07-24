@@ -1,0 +1,51 @@
+2024. 07. 24.에 진행한 세미나 기록
+
+- 결정계수랑 mse의 다른 점
+- confusion matrix (class별로의 %) + score로 평가 
+- epoch별로의 training acc, validation acc, training loss, validation loss
+- report할 때 precision, recall, f1-score, support
+- 손실함수
+	- 회귀 : MSE
+	- 이진 분류, 다중 분류의 loss function이 다르다 (cross entropy, binary entropy)
+	- one-hot encoding을 하지 않은 loss function : spartial loss function
+- 경사 하강법 (SGDclassifier) 
+	- 손실을 최소화하기 위하여 weight와 bias를 업데이트하는 최적화알고리즘 
+	- local minima, global minima 문제를 해결하기 위해 Adam 등의 optimizer 도입
+	- 경사하강법 공식 이해
+- 딥러닝 
+	- 많은 weight와 bias의 최적값 리스트를 찾는 것
+	- 각각을 조절하기 위해 loss를 계산하고, loss를 최소화
+	- back propagation?
+	- 딥러닝에서 기억해야 할 것 (5가지)
+		- forward propagation
+		- back propagation
+		- 손실 함수 (loss function)
+		- 활성화 함수 (activation function)
+			- 특징 추출을 하기 위해 비선형 함수를 도입 (선형 레이어만 있으면 특징 추출을 X)
+			- 계단함수, sigmoid, relu, tanh
+		- optimizer (SGD, Adam, 어떻게 업데이트할까)
+		- one-hot encoding 
+			- encoding의 방법
+			- one-hot encoding을 하여 각 class별로의 독립성을 부여한다
+			- deep learning에서 필수 
+
+deep learning에서의 필수 단계
+	- numpy로 변경
+	- one-hot encoding
+	- class 또한 숫자로 변경해야 함
+
+- 이진 분류일때 : 출력층은 sigmoid, binary_crossentropy
+- 다중 분류일떼 : 출력층은 softmax, categorical_crossentropy
+- regression : 출력층은 없고, MSE
+
+- 아래는 딥러닝 예시 코드
+model.add(Dense(10,input_shape=(30,),activation='tanh'))
+model.add(Dense(8,activation='tanh'))
+model.add(Dense(6,activation='tanh'))
+model.add(Dense(2,activation='softmax')) <-- 마지막 layer : output layer
+model.compile(Adam(lr=0.04),'categorical_crossentropy',metrics=['accuracy']) <-- lr : learning rate (학습율)
+model.summary()
+
+- assignment
+1) 당뇨 regression을 딥러닝으로 바꾸기
+2) uci repository의 raisin 딥러닝으로 classification
