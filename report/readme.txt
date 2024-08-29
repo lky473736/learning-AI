@@ -1,0 +1,1 @@
+각 directory에는 각자의 dataset에 대한 EDA, machine learning, deep learning한 experiment log 및 실행 결과를 담은 ipynb 등이 있습니다. HARTH 이전 디렉토리에서는 ML과 DL로 학습 방식에 따라 파일을 구분하였지만, HARTH 부터는 U-net, GoogleNet 등과 같은 전문적인 네트워크 아키텍쳐를 사용하기 때문에 파일을 더욱 세분화하여 작업합니다. 각 파일에는 학습한 모델 (+ optimizer, 기법, feature selection한 feature 등) 의 이름이 붙습니다. (e.g. ANN_DNN_classification_HARTH.ipynb)
