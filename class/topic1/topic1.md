@@ -1,5 +1,5 @@
-## learning-AI : class
-### <딥러닝응용> (이명규 교수님) : topic 1
+## learning-AI : deep learning application (61357002)
+### topic 1 : FAQ를 통한 머신러닝, 딥러닝 기본 개념 정리 1
 
 <br>
 
@@ -23,10 +23,12 @@
         - 분류 : classification  
         - 회귀 : regression  
     - 비지도학습 (unsupervised) : label이 존재하지 않고, 패턴을 인식하여 clustering  
+        - 요즘에 각광받음. <-- 현실에서 어떤 현상을 labeling하는 것이 쉽지 않으니깐
     - 강화학습 (reinforcement) : 사용자가 원하는 방향으로 보상을 주어 학습 (보상을 얻는 방향으로 학습)
         - 환경, 정책을 세우고 보상을 세움
+        - LLM, GPT...
     - 반지도학습 : 지도학습 + 반지도학습 (일부분은 label을 알려주어서 정확도를 올리는 방법)
-    - self-supervised : label이 없이 지도학습이 가능 (https://sanghyu.tistory.com/1840)
+    - self-supervised : label이 없이 지도학습이 가능. 일종의 비지도학습 (https://sanghyu.tistory.com/1840)
     
 <br>  
 
@@ -127,3 +129,4 @@
     - 절편과 기울기가 딥러닝에서 사용되는 것은 퍼셉트론 각각의 weight와 bias
     - 딥러닝은 사실 weight와 bias를 epoch를 거듭하여 수정하여 최적의 parameter를 찾는 과정
     - SGD 참고
+
