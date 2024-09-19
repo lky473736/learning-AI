@@ -305,8 +305,256 @@
     - Support = TP + FN
     
 - **왜 F1-score을 사용하는가?**
-    - <table border='1'><tr><td>1000</td><td>10</td></tr><tr><td>10</td><td>10</td></tr</table>
+
+    | 1000 | 10   |
+    |------|------|
+    | 10   | 10   |
+
     - 만약에 confusion matrix가 위와 같다면, 아래는 accuracy 측면에서 보았을 때는 0.98 정도로 매우 높다. 하지만 diagonal의 특정 component 갯수가 굉장히 많은 것을 보자면, 문제에 따라서 classification이 제대로 이루어지지 않았다고 판단할 수 있겠다.
     - 예를 들어서, 코로나19 양성 표본과 음성 표본을 class로 두고 classification하는 문제라면 F1-Score는 Precision과 Recall의 조화를 평가하므로, 특히 양성 및 음성 표본의 예측이 중요한 문제에서는 양쪽 클래스에 대한 균형 잡힌 성능 평가를 제공할 수 있다는 것이다.
     - 음성 표본을 제대로 분류하지 못하면 실제 상황에서 큰 문제가 발생할 것임
 
+<br>
+
+### **일련의 tips**
+- pd.read_csv에서 index_col=0을 하는 이유 : Unnamed :0가 가끔씩 나오기 때문에 이를 방지하기 위함
+- 만약에 classification에서 label이 0-based가 아니거나, 불연속적일 때 : label-encoder로 0-based로 만들어주기
+- 인덱스를 feature에 넣지 말아야 할 이유
+    - id를 넣어봤자 차원만 늘어날 뿐임 (curse of dimensinality -> overfitting 야기)
+- 파일을 읽어들였을 때 해야할 것
+    - 이상이 있나 없나 (결측치, 이상치)
+    - encoding
+    - target countplot
+- 모델 저장
+    - save_model을 할 때 저장되는 값들 : weight, bias, 모델 파라미터...
+    - 굳이 모델 저장하는걸 매번 할 필요 없음 (매번마다 다르니깐)
+        - 하지만 **전이 학습**은 반드시 모델을 저장해놔야함
+            - 전이 학습 : 신경망을 재사용하는 것
+            - 재사용하는 이유 : 앞에서는 일반적인 특성을 추출하고, 뒤에서는 추상적인 특성을 추출하니깐 전이 학습 도입하여 편하게 함
+
+<br>
+
+### 차원의 저주
+- feature의 갯수가 너무 많아서 모델이 데이터의 패턴을 파악하기 어려울 때
+- 해결책    
+    - **heatmap**을 구해서 상관계수를 보고 feature selection
+        - 사실 feature의 조합을 모두 조합해서 학습해보고 점수를 비교해보면 된다.(wrapper)
+            - 이러면 속도가 너무 저하되고 오래 걸림
+        - **PCA** 를 이용한다
+    - 궁극적으로 차원을 줄인다. (dimensionality reduction)
+
+<br>
+
+### manifold learning
+
+![alt text](<스크린샷 2024-09-19 오전 9.29.58.png>)
+
+- 고차원에서는 결정 경계가 너무 명확하지 않다. 너무 복잡하다.
+- **아무리 복잡한 데이터 (고차원) 이더라도 데이터 분석을 하여 특정 dimension으로 줄이면 파악하기 쉽다.**
+- 매니폴드 **가정** : 실제 고차원 데이터가 저차원 데이터에 가깝게 놓여 있다고 가정하는 것임
+- 예시 (차원 축소 알고리즘)
+    - 스위스 롤 (2D manifold)
+    - PCA
+
+<br>
+
+### PCA
+
+- https://bkshin.tistory.com/entry/%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D-9-PCA-Principal-Components-Analysis
+- train set에서 분산이 최대인 축을 찾기
+- **t-SNE**
+
+<br>
+
+### 딥러닝 개요
+- 필수 요소
+    - optimizer
+    - loss function
+    - back propagation
+    - forward propagation
+    - one-hot encoding
+- dense layer를 FCNN이라고도 한다 (full connected neural network)
+- **모델의 복잡성을 늘린다는 것이 꼭 그렇게 좋은 것은 아님**
+    - gradient vanishing problem
+        - layer을 너무 깊게 쌓아서 미분하니 0에 수렴하는 문제 발생
+        - 해결책
+            - node수를 줄이거나, 모델을 작게 만들거나
+            - **skip connection (shortcut) 도입**
+                - layer을 여러개 더하기
+                - 하는 이유
+                    - gradient vanishing problem을 해결
+                    - 잔차를 이용하여 학습을 용이하게 만듦
+                - 이전 Layer의 정보를 직접적으로 Direct하게 이용하기 위해 이전 층의 입력(정보)를 연결
+                - https://meaningful96.github.io/deeplearning/skipconnection/
+                - **plain model과 잔차를 도입한 Resnet의 안정성 비교**
+                ![alt text](<스크린샷 2024-09-19 오전 9.59.47.png>)
+
+### 여러개의 입력, 여러개의 출력을 다루는 딥러닝
+
+#### 입력이 여러개고, 출력이 1개
+![ㅇㅇ](<스크린샷 2024-09-19 오전 9.46.49.png>)
+
+- 입력이나 출력은 몇개도 될 수 있다. 
+    - **단, 중간에 concatenate 이용하면 붙이기**
+    - 위 소스를 확인해볼 때, feature을 겹쳐서 입력하였는데 이래도 아무 문제 없음
+
+```python
+input_wide = tf.keras.layers.Input(shape=[5])  # 특성 0 ~ 4
+input_deep = tf.keras.layers.Input(shape=[6])  # 특성 2 ~ 7
+norm_layer_wide = tf.keras.layers.Normalization()
+norm_layer_deep = tf.keras.layers.Normalization()
+norm_wide = norm_layer_wide(input_wide)
+norm_deep = norm_layer_deep(input_deep)
+hidden1 = tf.keras.layers.Dense(30, activation="relu")(norm_deep)
+hidden2 = tf.keras.layers.Dense(30, activation="relu")(hidden1)
+concat = tf.keras.layers.concatenate([norm_wide, hidden2])
+output = tf.keras.layers.Dense(1)(concat)
+model = tf.keras.Model(inputs=[input_wide, input_deep], outputs=[output])
+```
+
+#### 입력이 여러개고, 출력도 여러개
+
+![](<스크린샷 2024-09-19 오전 10.05.32.png>)
+
+```python
+optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
+model.compile(loss=("mse", "mse"), loss_weights=(0.9, 0.1), optimizer=optimizer,
+              metrics=["RootMeanSquaredError", "RootMeanSquaredError"])
+    # 각 출력층마다 loss랑 weights가 다르다는 것에 주목
+```
+
+<br>
+
+### CNN 기본
+
+- CNN reference
+    - https://www.freedium.cfd/https://towardsdatascience.com/deep-learning-illustrated-part-3-convolutional-neural-networks-96b900b0b9e0
+    - https://www.freedium.cfd/https://towardsdatascience.com/understanding-your-convolution-network-with-visualizations-a4883441533b
+    - https://www.freedium.cfd/https://medium.com/@koushikkushal95/understanding-convolutional-neural-networks-cnns-in-depth-d18e299bb438
+    - https://www.freedium.cfd/https://medium.com/ai-mind-labs/convolutional-neural-networks-explained-a-hands-on-guide-7de893629686
+- CNN을 사용하는 이유
+    - 공간적인 정보 또한 학습시키는 것 (local feature을 추출하기 위함)
+    - filtering을 위함 (feature extraction)
+        - 처음에는 filter값이 랜덤 (**처음에 특정 filter을 넣을 수도 있음**)
+        - 학습을 통하여 filter값을 최적화함 
+    - 사용 목적
+        - 이미지와 같이 부분적인 정보 추출을 할 때, DNN은 부적합 -> convolution 연산을 사용함
+        - 이미지 부분에 필터를 곱해서 convolution 연산을 수행 -> 중요한 feature extraction -> regression/classification이 용이해짐
+    - 전체 정보가 한 뉴런에 들어가면 굉장히 학습율이 떨어짐 -> 부분적인 학습으로 각 이미지를 영역으로 seperate하여 학습하는 것이 중요
+- stride (stride이 적을 수록 구해지는 정보가 많아짐), padding, filter (1, 3, 5, 7, 9...)
+- filter를 움직이는 stride
+- filter값은 초기에 랜덤하게 정해짐 -> 데이터를 잘 설명할 수 있는 최적값으로 update됨 (back-propagation을 통하여 각 component가 결정되는 것)
+- convolutional layer -> pooling 
+    - 정보 압축 (parameter 줄이고, 성능 높이기 + 크기 줄이기)
+    - pooling의 역할 
+        - 평행 이동 불변
+        - 정보 요약
+    - pooling의 장점 : 물체의 이동에 대하여 둔감하게 하는 것 
+
+<br>
+
+### RNN 기본
+
+- RNN Reference
+    - https://www.freedium.cfd/https://medium.com/learn-love-ai/introduction-to-recurrent-neural-networks-rnns-43238d037a5c
+    - https://www.freedium.cfd/https://towardsdatascience.com/deep-learning-illustrated-part-4-recurrent-neural-networks-d0121f27bc74
+    - https://www.freedium.cfd/https://medium.com/ai-in-plain-english/lstm-architecture-in-simple-terms-491570fae6f0
+
+- DNN, CNN은 데이터의 추세성을 반영한 것이 아니다. 이전의 시점을 반영하는 것도 아니다. 
+- 전에 있었던 데이터를 통하여 다음 데이터를 예측하는 모델 (이전 시점을 반영)
+    - 시계열 데이터, 주식 데이터, EMG, HARTH...
+    - 어제 시장가를 확인한 후에 오늘 매각할지 매수할지를 결정하는 것처럼
+
+- 순환 데이터
+	- 순환 데이터를 고려할 때, regression인 경우엔 window 수 + 다음 수로 데이터를 만들면 됨.
+	- classification이면 class의 갯수가 많은 것 or 맨 끝의 것
+		- 0 1 1 1
+		- 많은 것이 1, 끝의 것이 1
+
+- RNN의 단점
+	- 미분값의 손실 (기울기 소실) -> 문장이 길어지면 기울기 소실이 일어남
+        - **LSTM의 등장**
+
+<br>
+
+- **LSTM**
+![alt text](<스크린샷 2024-09-19 오전 10.53.20.png>)
+
+    - reference
+        - TinyML pdf file 
+
+    - short term뿐만이 아닌 long term까지 학습
+        - short term은 현재 학습하는 시계열의 시간 t
+        - long term은 여태껏 학습해온 시계열들의 정보 (cell state / 중요한 정보만)
+
+    - RNN은 layer가 많이 중첩될 수록 (cell이 많아질 수록) gradient vanishing 혹은 gradient exploding 문제가 발생한다.
+        - 당연히 그럴만도 한게, 학습이 진행되면서 이전의 정보는 점차 희석되기 마련이다.
+        - 따라서 가장 최근에 들어온 데이터셋에 대한 정보는 또렷히 학습된다.
+            - -> **LSTM과 GRU가 도입된다.**
+        - Long Short term memory : memory cell (cell state)의 도입으로 인하여 이전 문제점을 해결
+        - LSTM의 구조 
+            - (1) forget gate : 이전 hidden state의 일부를 까먹게 함 
+                - 중요한 정보만 남긴다
+                - sigmoid랑 연산하여 특정 확률을 cell state에 남길 것인가, 남기지 않을 것인가
+            - (2) input gate : 새로운 정보가 cell state에 더해짐 (현재 입력 정보를 반영)
+            - (3) output gate
+                - 결과를 출력
+                - 다음 cell에 hidden state, cell state를 넘겨줌
+    - GRU 
+        - LSTM과 비슷한데, gate를 하나 덜 사용한다. 하지만 LSTM과 비슷한 성능을 보이기에 효율적이다.
+
+<br>
+
+### DNN, CNN, RNN, LSTM 흐름 정리
+    - DNN의 단점 : local feature인 공간적 특성을 추출하지 못한다
+    - CNN의 단점 : 오직 현재 입력만 고려한다. (current state / 앞뒤 문맥을 파악할 수가 없다)
+    - RNN의 단점 : 문장이 길어지면 gradient vanishing (깊어질수록 손실이 일어난다)
+    - LSTM이 등장  
+
+<br>
+
+### 순환 데이터
+- Reference
+    - https://github.com/lky473736/learning-AI101/blob/main/insight/insight_3_split_sequence_and_CNN.ipynb
+    - https://velog.io/@tobigsts1617/CNN-for-univariatemultivariatemulti-stepmultivariate-multi-step-TSF
+    - https://qna.programmers.co.kr/questions/14992/%ED%8C%8C%EC%9D%B4%EC%8D%AC-lstm-%EC%8B%9C%EA%B3%84%EC%97%B4-%EC%98%88%EC%B8%A1-%ED%95%B4%EB%B4%A4%EB%8A%94%EB%8D%B0-%EC%A0%9C%EA%B0%80-%EC%9D%B4%ED%95%B4%ED%95%9C-%EA%B2%83%EC%9D%B4-%EB%A7%9E%EB%82%98%EC%9A%94
+    - https://machinelearningmastery.com/
+- **시계열 데이터도 CNN이 좋다 (split_sequence)**
+    - ```python
+        def split_sequences(sequences, n_steps):
+            X, y = list(), list()
+            for i in range(len(sequences)):
+            # find the end of this pattern
+                end_ix = i + n_steps
+                # check if we are beyond the dataset
+                if end_ix > len(sequences):
+                    break
+                # gather input and output parts of the pattern
+                seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+                X.append(seq_x)
+                y.append(seq_y)
+            return np.array(X), np.array(y) 
+- 순환 데이터를 만들어야 하는 이유
+    - 만약 데이터가 x1, x2, x3, x4, x5가 있을 때, 만약 따로따로 입력하면 x2가 x1 등 나머지와 독립적이기 때문에 이전 것을 반영하는 것이 아니다.
+    - 따라서 **x3를 넣으려면 x1, x2와 같이 넣어야 한다.** (그래야 이전 것을 반영하는 것이니)
+    - **split_sequence**을 사용한다.
+- 순환 데이터를 고려할 때, **regression인 경우엔 window 수 + 다음 수로 데이터를 만들면 됨.**
+    - x3을 target으로 놓을 땐, x1, x2가 입력, x3이 feature
+- **classification이면 class의 갯수가 많은 것 or 맨 끝의 것**
+	- 0 1 1 1
+	- 많은 것이 1, 끝의 것이 1
+- **따라서 split할 수 있는 method는 정말 많다.**
+    - 상황마다 다를 것
+    - regression이냐, classification이냐에 따라 label이 많은 것으로 할 것인지, 아니면 끝쪽을 할 것인지 등등 다름
+
+### NLP
+- input -> text embedding -> LSTM ...
+- embedding
+    - encoding의 종류
+        - 숫자 인코딩
+        - 원핫 인코딩
+        - **텍스트 임베딩**
+    - https://aws.amazon.com/ko/what-is/embeddings-in-machine-learning/
+    - text embedding을 layer로도 할 수도 있고, 아니면 딕셔너리로도 할 수도 있고
+    - euclidean distance를 구해서 가까운  것으로 embedding
+- contrast learning
