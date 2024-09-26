@@ -165,7 +165,7 @@
 <br>
 
 ### loss function
-<img src='https://github.com/MyungKyuYi/AI-class/blob/main/loss_function.jpg?raw=true'>
+<img src='https://github.com/MyungKyuYi/AI-class/blob/main/loss_function.jpg?raw=true' width="500px">
 
 - regression : MSE, MAE, RMSE...
 - classification
@@ -347,7 +347,7 @@
 
 ### manifold learning
 
-![alt text](<스크린샷 2024-09-19 오전 9.29.58.png>)
+<img src='./manifold.png' width="500px">
 
 - 고차원에서는 결정 경계가 너무 명확하지 않다. 너무 복잡하다.
 - **아무리 복잡한 데이터 (고차원) 이더라도 데이터 분석을 하여 특정 dimension으로 줄이면 파악하기 쉽다.**
@@ -379,20 +379,13 @@
         - layer을 너무 깊게 쌓아서 미분하니 0에 수렴하는 문제 발생
         - 해결책
             - node수를 줄이거나, 모델을 작게 만들거나
-            - **skip connection (shortcut) 도입**
-                - layer을 여러개 더하기
-                - 하는 이유
-                    - gradient vanishing problem을 해결
-                    - 잔차를 이용하여 학습을 용이하게 만듦
-                - 이전 Layer의 정보를 직접적으로 Direct하게 이용하기 위해 이전 층의 입력(정보)를 연결
-                - https://meaningful96.github.io/deeplearning/skipconnection/
+            - **예시 : ResNet에서 skip connection (shortcut) 도입**
                 - **plain model과 잔차를 도입한 Resnet의 안정성 비교**
-                ![alt text](<스크린샷 2024-09-19 오전 9.59.47.png>)
-
+                <img src="./plain_vs_resnet.png" width="500px">
 ### 여러개의 입력, 여러개의 출력을 다루는 딥러닝
 
 #### 입력이 여러개고, 출력이 1개
-![ㅇㅇ](<스크린샷 2024-09-19 오전 9.46.49.png>)
+<img src='./two_input_one_output.png' width="500px">
 
 - 입력이나 출력은 몇개도 될 수 있다. 
     - **단, 중간에 concatenate 이용하면 붙이기**
@@ -414,7 +407,7 @@ model = tf.keras.Model(inputs=[input_wide, input_deep], outputs=[output])
 
 #### 입력이 여러개고, 출력도 여러개
 
-![](<스크린샷 2024-09-19 오전 10.05.32.png>)
+<img src='./two_input_two_output.png' width="500px">
 
 ```python
 optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
@@ -478,7 +471,8 @@ model.compile(loss=("mse", "mse"), loss_weights=(0.9, 0.1), optimizer=optimizer,
 <br>
 
 - **LSTM**
-![alt text](<스크린샷 2024-09-19 오전 10.53.20.png>)
+<img src='./lstm.png' width="500px">
+
 
     - reference
         - TinyML pdf file 
@@ -510,6 +504,7 @@ model.compile(loss=("mse", "mse"), loss_weights=(0.9, 0.1), optimizer=optimizer,
     - CNN의 단점 : 오직 현재 입력만 고려한다. (current state / 앞뒤 문맥을 파악할 수가 없다)
     - RNN의 단점 : 문장이 길어지면 gradient vanishing (깊어질수록 손실이 일어난다)
     - LSTM이 등장  
+        - LSTM도 길면 gradient descent가 발생할 수 있다. -> attention 등장
 
 <br>
 
@@ -547,6 +542,8 @@ model.compile(loss=("mse", "mse"), loss_weights=(0.9, 0.1), optimizer=optimizer,
     - 상황마다 다를 것
     - regression이냐, classification이냐에 따라 label이 많은 것으로 할 것인지, 아니면 끝쪽을 할 것인지 등등 다름
 
+<br>
+
 ### NLP
 - input -> text embedding -> LSTM ...
 - embedding
@@ -558,3 +555,179 @@ model.compile(loss=("mse", "mse"), loss_weights=(0.9, 0.1), optimizer=optimizer,
     - text embedding을 layer로도 할 수도 있고, 아니면 딕셔너리로도 할 수도 있고
     - euclidean distance를 구해서 가까운  것으로 embedding
 - contrast learning
+
+<br>
+
+### 
+
+### ResNet
+
+- **Reference**
+    - https://meaningful96.github.io/deeplearning/skipconnection/
+
+- layer을 여러개 더하기
+- 하는 이유
+    - gradient vanishing problem을 해결
+    - 잔차를 이용하여 학습을 용이하게 만듦
+- 이전 Layer의 정보를 직접적으로 Direct하게 이용하기 위해 이전 층의 입력(정보)를 연결
+- **예시 : ResNet에서 skip connection (shortcut) 도입**
+    - **plain model과 잔차를 도입한 Resnet의 안정성 비교**
+        <img src="./plain_vs_resnet.png" width="500px">
+- shortcut을 만드는 방법 = 특정 layer와 layer를 concatenate 진행
+    - 예를 들어서 LSTM(1) -> LSTM(2) -> LSTM(3) -> ...
+    - LSTM(1)와 LSTM(3)을 concatenate하면, **이 둘의 차이를 학습**
+
+<br>
+
+### gradient exploding
+```
+ 그레이디언트 소실(gradient vanishing)이라고 합니다. 반면, 경우에 따라서는 그레이디언트가 점점 커져 여러 층에서 비정상적으로 큰 가중치가 갱신되어 알고리즘이 발산하게 되는 현상도 발생할 수 있습니다. 이를 그레이디언트 폭발(gradient exploding)이라고 부르며, 순환 신경망(RNN)에서 주로 나타나는 문제입니다. 일반적으로 불안정한 그레이디언트는 심층 신경망의 훈련을 어렵게 만들며, 각 층마다 학습 속도가 다르게 변할 수 있습니다.
+```
+
+- gradient descendant는 기울기가 소실되고 있는 상태이지만, 기울기가 폭발적으로 증가할 수도 있다.
+    - ex) LSTM에서 optimizer를 relu를 사용하면 기울기 폭발 가능성 있음 (그래서 tanh를 쓰는 것)
+- **gradient clap**을 이용하여 해결 가능
+
+<br>
+
+### transfer learning
+- **Reference**
+    - https://github.com/MyungKyuYi/AI-class/blob/main/Pre-trained_model.ipynb
+    - https://lhw0772.medium.com/study-da-domain-adaptation-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-%EA%B8%B0%EB%B3%B8%ED%8E%B8-4af4ab63f871
+    - https://2bdbest-ds.tistory.com/entry/%EB%85%BC%EB%AC%B8-%EB%A6%AC%EB%B7%B0-Domain-Adaptation
+
+<img src="./domain_adaptation.png" width="500px">
+
+- 만약에 오른쪽 팔에 대한 정보를 학습한 모델에 왼쪽 팔에 대한 정보를 input하고 prediction하라고 하면 acc가 좋지 않을 것이다. 
+    - **하지만 오른쪽 팔과 왼쪽 팔은 전체적인 domain subject가 비슷하다**
+    - domain adaptation을 하기 위해, 즉 오른쪽 팔을 학습한 모델을 왼쪽 팔에도 적합하도록 구성하기 위해 **transfer learning**을 하자는 것이다.
+```
+사전 학습과 미세 조정
+전이 학습을 하기 위해서는 학습된 모델과 새로 학습할 데이터셋이 필요합니다. 여기서 학습된 모델을 만드는 과정을 사전 학습(pre-training)이라고 합니다. 미세 조정(fine-tuning)은 사전 학습된 모델을 새로운 문제에 적용하기 위해 일부 가중치를 조절하는 학습 과정을 말합니다.
+
+참고로, 전이 학습과 미세 조정을 헷갈릴 수 있는데, 전이 학습은 모델을 효율적으로 학습하기 위한 하나의 큰 접근 방법이며, 미세 조정은 전이 학습에서 사용되는 기법 중 하나라고 볼 수 있겠습니다.
+```
+
+- 사전 학습의 장점, 특징
+    - 이전 모델 (pre-trained model) 에서 학습된 가중치랑 bias를 전부 저장하는 것이기 때문에, 이전 모델을 다시 학습할 필요 없이 현재 문제를 해결할 수 있다 -> 시간이 절약된다
+    - 이미 잘 만들어진 모델에다가 현재 문제에 맞는 layer를 추가하면 성능이 올라갈 것이다.
+    - 작은 데이터셋에 대해 학습할 때 오버피팅을 예방할 수 있다
+        - 적은 데이터로 특징을 추출하기 위한 학습을 하게 되면, 데이터 수에 비해 모델의 가중치 수가 많을 수 있어 미세한 특징까지 모두 학습할 수 있음
+        - 전이 학습을 이용해 마지막 레이어만 학습하게 한다면, 학습할 가중치 수가 줄어 과한 학습이 이루어지지 않게 할 수 있음.
+    - pre-trained model에서의 input_shape와 현재 문제에서 사용할 데이터셋의 input_shape가 같아야 하기 때문에 reshape해주어야 함
+
+- 예시 : MNIST 데이터셋
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.utils import to_categorical
+
+# MNIST 데이터셋 불러오기
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+
+# 데이터 전처리 (정규화 및 차원 추가)
+train_images = train_images.reshape((60000, 28, 28, 1)).astype('float32') / 255
+test_images = test_images.reshape((10000, 28, 28, 1)).astype('float32') / 255
+
+# 레이블을 one-hot 인코딩
+train_labels = to_categorical(train_labels)
+test_labels = to_categorical(test_labels)
+
+# 모델 정의
+model = models.Sequential()
+
+# CNN 레이어
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+
+# 완전연결(Dense) 레이어
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10, activation='softmax'))  # 10개의 클래스 (0~9)
+
+# 모델 컴파일
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# 모델 학습
+model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.1)
+
+# 모델 평가
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print(f'Test accuracy: {test_acc}')
+
+```
+
+```python
+import tensorflow as tf
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras import layers, models
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.utils import to_categorical
+import numpy as np
+
+# MNIST 데이터셋 불러오기
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+
+# VGG16은 224x224 크기의 입력을 기대하므로 MNIST 데이터를 리사이징
+train_images = np.stack([np.stack([np.pad(image, ((98, 98), (98, 98)), mode='constant') for image in train_images], axis=0)], axis=-1).squeeze()
+test_images = np.stack([np.stack([np.pad(image, ((98, 98), (98, 98)), mode='constant') for image in test_images], axis=0)], axis=-1).squeeze()
+
+# 이미지 데이터를 float로 변환하고 정규화
+train_images = train_images.astype('float32') / 255
+test_images = test_images.astype('float32') / 255
+
+# 레이블을 one-hot 인코딩
+train_labels = to_categorical(train_labels)
+test_labels = to_categorical(test_labels)
+
+# VGG16 사전학습 모델 불러오기, 출력층 제외 (include_top=False)
+vgg_base = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+# VGG16의 가중치는 학습하지 않도록 고정
+vgg_base.trainable = False
+
+# 전이 학습 모델 정의
+model = models.Sequential()
+
+# VGG16 모델 추가
+model.add(vgg_base)
+
+# CNN에 적합한 Fully Connected Layer 추가
+model.add(layers.Flatten())
+model.add(layers.Dense(256, activation='relu'))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='softmax'))  # 10개의 클래스 (0~9)
+
+# 모델 컴파일
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# 모델 학습
+model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.1)
+
+# 모델 평가
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print(f'Test accuracy: {test_acc}')
+
+```
+
+- fine-tuning
+    - trainable를 False로 두었었는데, 다시 True로 바꾸어서 학습을 진행함
+    - 그러면 어차피 다시 학습을 진행할 건데 굳이 왜 다시 학습?
+        - 맨 처음에 가중치랑 절편은 random값이여서 처음부터 쭉 학습하는 것보다는, **이미 정답에 가까운 가중치와 절편을 이용하여 조금만 변경하는 것이 훨씬 더 빠르고 정확도 높다**
+        - initialization point
+
+- 결론 
+    - trainble을 False로 두고 현재 문제에 맞춰서 layer를 추가한다 -> pre-trained model
+    - trainable를 다시 True로 두고 학습을 진행한다 -> fine-tuning
+
+- 참고 : 정규화 방식
+    - model 안에서의 정규화 : BatchNormalization layer
+    - model 밖에서의 정규화 : MinMaxScaler, StandardScaler...
