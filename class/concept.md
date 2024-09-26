@@ -1,10 +1,9 @@
 ## learning-AI : deep learning application (61357002)
-### FAQ를 통한 머신러닝, 딥러닝 기본 개념 정리 
+### 머신러닝, 딥러닝 기본 개념 정리 
 
 <br>
 
 - **임규연 (lky473736)**
-- **2024.09.12. 최종 수정**
 
 ------
 
@@ -718,6 +717,35 @@ print(f'Test accuracy: {test_acc}')
 
 ```
 
+```python
+# VGG16의 가중치 학습을 True로 변경
+vgg_base.trainable = True
+
+# 전이 학습 모델 정의
+model = models.Sequential()
+
+# VGG16 모델 추가
+model.add(vgg_base)
+
+# CNN에 적합한 Fully Connected Layer 추가
+model.add(layers.Flatten())
+model.add(layers.Dense(256, activation='relu'))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='softmax'))  # 10개의 클래스 (0~9)
+
+# 모델 컴파일
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# 모델 학습
+model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.1)
+
+# 모델 평가
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print(f'Test accuracy: {test_acc}')
+```
+
 - fine-tuning
     - trainable를 False로 두었었는데, 다시 True로 바꾸어서 학습을 진행함
     - 그러면 어차피 다시 학습을 진행할 건데 굳이 왜 다시 학습?
@@ -731,3 +759,80 @@ print(f'Test accuracy: {test_acc}')
 - 참고 : 정규화 방식
     - model 안에서의 정규화 : BatchNormalization layer
     - model 밖에서의 정규화 : MinMaxScaler, StandardScaler...
+
+### embedding
+
+- encoding의 종류
+    - label encoding
+    - onehot encoding
+    - **text embedding**
+- text embedding
+    - ``` this is the news```와 같은 문장에서 단어를 mapping하는 것임 (this는 0, is는 1 ... / 딕셔너리가 필요함)
+    - 가장 많이 사용하는 단어는 조사 (관사, a, the ...)
+    -  https://aws.amazon.com/ko/what-is/embeddings-in-machine-learning/
+    - text embedding을 layer로도 할 수도 있고, 아니면 딕셔너리로도 할 수도 있고
+    - euclidean distance를 구해서 가까운  것으로 embedding
+- contrast learning
+- LLM에서 가장 많이 사용하는 것은 당연히 **transfer learning** -> 좋은 LLM 모델을 앞에 base model로 두어서 모델링하는 것 (BERT, llama...)
+
+###
+
+### Variant CNN
+
+- LeNet-5 
+    - 이때의 activation은 전부 tanh
+- AlexNet 
+    - relu activation 도입
+    - softmax 도입
+    - LRN
+- GoogLeNet (inception model)
+    - 아래 figure가 inception 하나에 해당되는 것임
+        - <img src="inception.png" width="500px">
+    - 여러 크기의 특성맵을 출력하는 합성곱 층을 구성
+    - ```
+        1x1 커널의 합성곱 층은 인셉션 모듈에서 중요한 역할을 합니다. 겉보기에는 한 번에 하나의 픽셀만 처리하기 때문에 공간적인 패턴을 잡지 못할 것처럼 보일 수 있지만, 실제로는 세 가지 주요 목적을 가지고 있습니다:
+
+        1. **깊이 차원의 패턴 감지**: 1x1 합성곱층은 공간상의 패턴을 잡을 수 없지만, 채널(깊이) 차원을 따라 놓인 패턴을 잡을 수 있습니다. 즉, 채널 간 상관관계를 학습하는 데 유용합니다.
+
+        2. **차원 축소**: 이 층은 입력보다 더 적은 특성 맵을 출력하므로, 병목층(bottleneck layer) 역할을 합니다. 차원을 줄이는 동시에 연산 비용과 파라미터 개수를 줄여 훈련 속도를 높이고, 과적합을 줄여 일반화 성능을 향상시키는 데 기여합니다.
+
+        3. **복잡한 패턴 감지**: 1x1 합성곱층은 더 복잡한 패턴을 감지하기 위한 도구로 사용됩니다. 1x1 합성곱층과 3x3 또는 5x5 합성곱층의 쌍은 더 복잡한 패턴을 감지할 수 있는 하나의 강력한 합성곱층처럼 작동합니다. 이는 두 개의 층을 가진 신경망이 이미지를 훑는 것과 같은 방식으로, 더욱 정교한 특성을 학습할 수 있게 해줍니다.
+
+        따라서, 1x1 합성곱층은 단순해 보일 수 있지만, 깊이 차원의 패턴을 감지하고, 차원을 축소하며, 더 복잡한 패턴을 감지하는 데 중요한 역할을 합니다.
+        ```
+    - <img src="GoogLeNet.png" width="500px">
+    - 이전에 나온 inception 모듈이 팽이 모양
+
+- VGGNet 
+- ResNet
+    - <img src="ResNet.png" width="500px">
+    - 목적
+        - 잔차 학습을 도입하여 학습 용이하게 함
+        - gradient vanishing problem 해결 위해
+- Xception
+    - Reference
+        - https://wikidocs.net/164801
+<img src="https://wikidocs.net/images/page/164801/xception_Fig_17.jpg" width="500px">
+    - GoogLeNet + 깊이별 분리 합성곱층
+    - ```Inception-v4는 GoogLeNet과 ResNet의 아이디어를 결합하여 설계된 모델입니다. 이 모델에서 인셉션 모듈은 **깊이별 분리 합성곱층(depthwise separable convolution)**을 도입하여 연산 효율성을 극대화하고 성능을 향상시키는 데 기여합니다.
+
+        **깊이별 분리 합성곱층(depthwise separable convolution)**이란, 일반 합성곱 연산을 두 단계로 나누는 방식을 의미합니다:
+        1. **Depthwise Convolution**: 채널별로 개별적인 합성곱을 적용하여 공간 차원에서 패턴을 감지합니다.
+        2. **Pointwise Convolution (1x1 Convolution)**: 1x1 합성곱을 사용하여 채널 간의 상호작용을 학습합니다.
+
+        이 방식을 통해 **연산량을 줄이고** **모델의 효율성을 극대화**할 수 있습니다. 즉, 더 적은 계산으로도 복잡한 패턴을 감지할 수 있게 됩니다. 이러한 구조는 ResNet의 잔차 연결(residual connections)과 인셉션 모듈의 특징을 결합하여 **성능과 효율성**을 모두 강화시킨 모델입니다.
+
+        Inception-v4에서도 이러한 분리 합성곱층을 사용하여 더 나은 성능을 달성하며, 동시에 모델의 복잡도를 조절하고 연산 비용을 줄일 수 있습니다.
+        ```
+    - 여기에서도 1 by 1 깊이 필터를 사용한 conv layer로 구성된다. (GoogLeNet 설명 참고)
+
+- SENet
+<img src="SENet.png" width="500px">
+
+- DenseNet
+    - https://velog.io/@lighthouse97/DenseNet%EC%9D%98-%EC%9D%B4%ED%95%B4
+    - <img src="https://miro.medium.com/v2/resize:fit:678/1*QWtz0S27vYsDzb5luRfKSA.png" width="500px">
+
+
+1. 만약에 tree방식에서(random forest) 둘이 correlence가 비슷한 features를 동시에 넣는 것이 더 좋다 (curse of dimensionality의 초월)
+2. regression은 features가 둘이 비슷하면 하나만 넣는게 낫다
