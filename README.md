@@ -3,6 +3,6 @@
 
 본 repository는 AI 스터디 및 paper works, 개인적인 AI 공부를 한 기록을 담은 repository입니다. report 디렉토리에서 각 dataset에 대하여 작업합니다.
 
-- 각 논문에 대한 review는 https://www.notion.so/Database-about-researching-10fe61796c4280f3be35c003e83a291c?pvs=4 에서 진행하고 있습니다. 
+- 각 논문에 대한 review는 https://astonishing-antlion-13b.notion.site/Database-about-researching-10fe61796c4280f3be35c003e83a291c?pvs=74 에서 진행하고 있습니다. 
 - **report** 디렉토리에서 각종 데이터셋에 대한 DL, ML 학습 및 experiment를 진행하고 있습니다.
 - **class** 디렉토리에서 **[딥러닝응용 (prof. Myung Kyu, Yi)]** 수업에 참여하여 진행한 과제나 필기를 작업합니다.
