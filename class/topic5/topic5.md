@@ -37,6 +37,7 @@
 
 - **Attention vs Transformer**
     - **Attention** : 문장의 각 단어가 다른 단어들과 얼마나 연관성이 있는지를 계산해, 중요한 정보를 선택적으로 학습함. 순차적으로 데이터를 처리하기 때문에 연산이 느림.
+        - https://modulabs.co.kr/blog/introducing-attention/
         - **예시** : "사과는 맛있다"에서 "사과"와 "맛있다"의 관계를 집중적으로 학습.
     - **Transformer** : attention 메커니즘을 개선해 모든 단어를 동시에 처리. 연산 속도가 빠르고, 각 단어의 위치 정보를 고려하기 위해 **positional encoding**을 사용.
         - **예시** : "나는 책을 읽는다"와 "책을 나는 읽는다" 같은 문장에서 단어 순서가 바뀌더라도, 의미를 고려해 적절히 처리.
@@ -59,7 +60,9 @@
 
 ### AutoEncoder
 <img src="autoencoder_structure.png" width="500px">
+<img src="autoencoder.png" width="500px">
 
+- https://keraskorea.github.io/posts/2018-10-23-keras_autoencoder/
 - 기존 MLP 방식과 달리 인코더-디코더 구조를 가짐. 인코더는 데이터를 압축하여 **latent vector**를 생성하고, 디코더는 이를 다시 복원.
 - **Structure**
     - 인코더는 입력 데이터를 점차 축소해 핵심 정보를 추출하고, 디코더는 이를 바탕으로 데이터를 복원.
