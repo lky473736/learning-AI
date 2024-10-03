@@ -836,3 +836,58 @@ print(f'Test accuracy: {test_acc}')
 
 1. 만약에 tree방식에서(random forest) 둘이 correlence가 비슷한 features를 동시에 넣는 것이 더 좋다 (curse of dimensionality의 초월)
 2. regression은 features가 둘이 비슷하면 하나만 넣는게 낫다
+
+### transformer
+- "Attention is all you need"
+- 모델은 중요한 부분에 더 집중하고, 덜 중요한 부분은 무시하여, 효율적으로 정보를 처리
+- RNN과 LSTM의 Review
+    - RNN : 이전에 학습한 내용을 학습하는 순환 신경망, Gradient vanishing, exploding 문제가 발생할 수 있다
+    - LSTM : Cell state를 도입하여 장기적인 기억을 관장할 수 있는 일종의 path를 둠. (input gate, forget gate, output gate)
+    - RNN과 LSTM의 입력과 출력이 **고정**되어 있어서 출력 sequence의 길이가 유동적이고 미리 알 수 없는 경우엔 적합하지 않음 (예를 들어서 GPT. 단어의 길이가 고정적이지 않음) -> **seq2seq**
+
+<br>
+- seq2seq
+<img src="./seq2seq.png" width="500px">
+    - 
+
+- context vector
+<img src=">
+
+- attention vs transformer 
+    - attention은 정보가 sequence하게 입력됨
+    - transformer는 한 뭉텅이가 하나로 입력됨 -> 순서가 없음
+
+    - 예시) 예를 들어서 사과는 맛있는 과일이다 이러면
+        - 사과는이라는 단어와 맛있는, 과일이다 이것의 상호관계에 대한 attention score를 계산하게 됨
+        - 연관성이 얼마나 밀접한가를 중점
+        - 각 단어마다 당연히 시간이 오래 걸림 -> 한꺼번에 병렬적으로 구하자 : multi-head attention
+
+- 임베딩 하는 이유
+    - 모델에서 관계를 끊어주기 위함
+    - 고차원 벡터 -> 저차원 벡터
+
+- positional embedding
+    - 나 너 돈줘, 너 나 돈줘 <- 나, 너의 위치가 달라지기만 해도 의미가 달라짐
+    - 위치에 따라 의미가 달라진다 -> 각 단어를 숫자로 변환하는 임베딩이 필요하며, 그 단어의 위치까지 기억해야하는 상황이 일어난 것임
+
+- transformer에서 중요한 4가지
+    - embedding
+    - positional embedding
+    - multi-head attention
+    - transformer
+
+### AutoEncoder
+
+- 기존의 방식 (MLP) : input -> hidden -> output
+- structure
+    - <img src="autoencoder_structure.png" width="500px">
+    - encoder : feature extraction (**representation**, 얼마나 잘 압축하는가)
+    - decoder : encoder에서 나온 map을 decoder로 다시 원본 사이즈로 복구
+- self-supervised learning
+- 오토인코더 키워드 : latent vector (latent space), reconstruct error
+    - latent vector : encoder에서 feature extraction한 정보
+    - reconstruction error : output - input
+- anomaly detection
+- manifold learning
+
+### U-net
