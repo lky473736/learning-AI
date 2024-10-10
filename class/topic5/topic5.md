@@ -81,7 +81,7 @@
 
 ### U-Net
 
-<img src="https ://blog.kakaocdn.net/dn/be0zht/btq90lVeBuT/6cWdVVU9NsRQ9hAhVrfK3K/img.png" width="500px"> 
+<img src="https://www.frontiersin.org/files/Articles/841297/fnagi-14-841297-HTML-r2/image_m/fnagi-14-841297-g001.jpg" width="500px"> 
 
 - **U-Net**은 주로 **이미지 분할**에 특화된 CNN 구조. 의료 영상 분석을 포함해 다양한 이미지 분할 작업에 활용됨.
 - **Structure**
