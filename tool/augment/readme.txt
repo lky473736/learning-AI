@@ -1,0 +1,17 @@
+- augment_original 
+    - reference 
+        - https://github.com/uchidalab/time_series_augmentation/blob/master/docs/AugmentationMethods.md
+        - https://github.com/terryum/Data-Augmentation-For-Wearable-Sensor-Data/blob/master/Example_DataAugmentation_TimeseriesData.ipynb
+    - implementation
+        - time-series data augmentation을 구현함
+            - **Jitter** : 입력 데이터에 잡음을 추가하여 변형된 데이터를 생성
+            - **Scaling** : 입력 데이터를 무작위 비율로 스케일링하여 변형된 데이터를 생성
+            - **Permutation** : 입력 데이터를 특정 구간별로 무작위로 섞어 새로운 패턴을 생성
+            - **Magnitude Warp** : 입력 데이터의 특정 지점을 매끄럽게 비틀어 변형된 데이터를 생성
+            - **Time Warp** : 시간 축을 비틀어 새로운 데이터를 생성
+            - **Random Guided Warp** : DTW 또는 ShapeDTW를 사용하여 같은 클래스 내에서 무작위 패턴을 선택한 후 비틀기를 적용
+            - **Window Slice** : 데이터의 구간을 임의로 선택하여 축소
+            - **Window Warp** : 특정 구간을 늘리거나 줄여 새로운 패턴을 생성
+
+- augment_GAN
+- augment_SMOTified_GAN
