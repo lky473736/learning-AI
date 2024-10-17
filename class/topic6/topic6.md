@@ -35,7 +35,6 @@
             - encoder가 제일 중요함 (latent space를 만드는게 목적이니깐)
 
 - **transformer** 
-
         - self-attention
         - multi-head attention
         - embedding
