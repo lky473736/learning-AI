@@ -87,7 +87,7 @@
 - **PCA vs AE (auto-encoder)**
     - 입력과 출력이 유사하게 되도록 
     - 둘 다 encoder임 -> 결국엔 encoder로 latent space를 만들고 DNN 붙여서 출력해낼 수 있음
-    - **AE를 사용하는 목적 : dimensionality reduction**
+    - **AE를 사용하는 목적 : dimensionality reduction + 정보의 압축**
         - **PCA** : 주성분 분석, eigenvalue를 이용하여 축소시킴 (PCA 전과 PCA 후를 비교하였을 때 무조건 PCA하여서 성능이 좋지 않을 수 있다)
         - **AE** : encoder-decoder 방식 
             - 입력 $x$ -> encoder로 latent space를 만듦 (**데이터를 압축한 버전**)

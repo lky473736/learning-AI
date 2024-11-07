@@ -90,6 +90,8 @@ https://medium.com/@rukshanpramoditha/a-comprehensive-guide-to-variational-autoe
         - <img src="max_likelihood.png" width="200px">
         - 데이터는 확률분포로 변할 수 있다. 데이터를 통해 확률분포를 예측할 수 있다. -> likelihood
 - VAE의 loss == reconstruction error + KL Divergence (두개의 분포의 차이)
+    - 두 분포를 최소화하자
+        - 실제 값이랑 예측 값이랑 최대한 가깝게 하자
     - 원래 데이터를 가우시안 분포로 가정하는 것. (N(0, 1)) 이러면 평균과 분산을 알면 샘플링 쉬움. 원본 데이터로부터 샘플링.
     - 결국엔 정규분포와 input의 분포를 이용하여 variational inference (변분추론)하여 근삿값을 찾는 것
     - 재파라미터 트릭 
