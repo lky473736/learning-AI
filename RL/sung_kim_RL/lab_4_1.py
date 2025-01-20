@@ -1,10 +1,11 @@
+'''
+    implementation E-greedy, decaying E-greedy
+    Gyuyeon Lim, lky473736
+'''
+
 import sys
 import math
 import random
-
-# implementation optimal Q learning 
-# Gyuyeon Lim, lky473736
-
 '''
 [[], [], [], []], 
 [[], [], [], []],
@@ -12,10 +13,19 @@ import random
 [[], [], [], []]
 '''
 
+cursor = [0, 0]
 hole = set()
 goal = [3, 3]
 
 print ("<Q-learning simulation : frozenlake 4 X 4>")
+print ("(1) E-greedy")
+print ("(2) decaying E-greedy")
+
+print ("Enter the version : ")
+version = int(sys.stdin.readline())
+
+print ("Enter the epsilon : ")
+epsilon = float(sys.stdin.readline())
 
 print ("Enter the hole's number : ")
 holes_N = int(sys.stdin.readline())
@@ -40,18 +50,29 @@ in arr Q
 
 for _ in range (N) : 
     cursor = [0, 0]
+    if version == 1 : 
+        epsilon = 
+    
     while True : 
-        directions = []
-        if cursor[0]-1 >= 0 : 
-            directions.append(0)
-        if cursor[0]+1 <= 3 : 
-            directions.append(2)
-        if cursor[1]+1 <= 3 : 
-            directions.append(1)
-        if cursor[1]-1 >= 0 :
-            directions.append(3)
+        direction = 0
         
-        direction = random.choice(directions)
+        if version == 0 : # E-greedy
+            if random.random() < epsilon :
+                directions = []
+                if cursor[0]-1 >= 0 : 
+                    directions.append(0)
+                if cursor[0]+1 <= 3 : 
+                    directions.append(2)
+                if cursor[1]+1 <= 3 : 
+                    directions.append(1)
+                if cursor[1]-1 >= 0 :
+                    directions.append(3)
+                
+                direction = random.choice(directions)
+                
+            else : 
+                direction = Q.index(max(Q[cursor[0]][cursor[1]]))
+                
         reward = 0
         token_hole = 0
         token_goal = 0

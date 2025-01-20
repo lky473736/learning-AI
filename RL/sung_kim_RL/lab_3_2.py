@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from gym.envs.registration import register
 import random as pr
 
+# dummy Q learning 
+
 def rargmax(vector):
     m = np.amax(vector)
     indices = np.nonzero(vector == m)[0]
