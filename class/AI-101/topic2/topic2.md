@@ -74,3 +74,43 @@
         <img src="https://miro.medium.com/v2/resize:fit:980/1*uQpB2KYjcDaBBYoVZJ14Sw.png">
         - random search, grid search, K-fold
 
+<br>
+
+### 불균형 데이터
+
+<img src="./countplot.png">
+
+- 데이터의 레이블의 갯수를 확인한다
+    - 위는 당뇨병 데이터, 당연히 당뇨병이 걸린 피험자 수보다 당뇨병이 걸리지 않은 피험자 수가 훨씬 많음
+    - imbalanced data problem : major label data (수가 많은 데이터)에 더 많이 치우쳐져 학습될 경우가 있음
+        - 해결 방법
+            - train_test_split 시에 stratify 옵션 넣기
+            - data augmentation
+
+<br>
+
+### **데이터 퀄리티 3대 요소 : 노이즈, 이상치, 결측치**
+- noise : f(x)에서부터 벗어나는 것 (기존 분포에서 제거하는 것)
+- outlier : 아예 범위에서 벗어나는 것
+- null : 값이 뚫려있는 것
+
+<br>
+
+### pandas dataframe vs numpy ndarray
+- pandas dataframe
+    - 장점 : column명에 의해서 조작이 쉬움, manipulation 쉬움
+    - 단점 : 느림
+- numpy ndarray
+    - 장점 : column이 없음. 하지만 속도가 빠름 (C 기반)
+    - 단점 : column이 없음. manipulation 어려움
+- tensorflow는 numpy로 변경해서 대입 / pytorch는 tensor로 변경해서 대입
+
+<br>
+
+### ML과 DL의 요소 차이
+
+- ML과 DL에 데이터를 넣으려면 encoding이 필요 
+    - one-hot encoding
+    - label encoding
+- ML의 label은 문자열이여도 됨
+
