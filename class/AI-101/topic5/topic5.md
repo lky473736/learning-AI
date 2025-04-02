@@ -107,4 +107,34 @@
         - 1, 2, 3 이렇게 하면 1과 2가 가까워보이고, 1과 3이 멀어져 보임 
         - label을 공평하게 보기 위해서
     - label을 one-hot encoding해야 함 (categorical-crossentropy 시)
+
+<br>
+
+### **classification report에서의 수치값들**
+- **Precision (정밀도)**  
+    - Precision은 True Positive (TP)를 True Positive와 False Positive (FP)의 합으로 나눈 값
+    - Precision = TP / (TP + FP)
+
+- **Recall (재현율)**  
+    - Recall은 True Positive (TP)를 True Positive와 False Negative (FN)의 합으로 나눈 값
+    - Recall = TP / (TP + FN)
+
+- **F1-Score (F1 점수)**  
+    - F1-Score는 Precision과 Recall의 조화 평균
+    - F1-Score = 2 × (Precision × Recall) / (Precision + Recall)
+
+- **Support (지원)**  
+    - Support는 클래스의 실제 양성 샘플 수를 의미
+    - Support = TP + FN
     
+- **왜 F1-score을 사용하는가?**
+
+    | 1000 | 10   |
+    |------|------|
+    | 10   | 10   |
+
+    - 만약에 confusion matrix가 위와 같다면, 아래는 accuracy 측면에서 보았을 때는 0.98 정도로 매우 높다. 하지만 diagonal의 특정 component 갯수가 굉장히 많은 것을 보자면, 문제에 따라서 classification이 제대로 이루어지지 않았다고 판단할 수 있겠다.
+    - 예를 들어서, 코로나19 양성 표본과 음성 표본을 class로 두고 classification하는 문제라면 F1-Score는 Precision과 Recall의 조화를 평가하므로, 특히 양성 및 음성 표본의 예측이 중요한 문제에서는 양쪽 클래스에 대한 균형 잡힌 성능 평가를 제공할 수 있다는 것이다.
+    - 음성 표본을 제대로 분류하지 못하면 실제 상황에서 큰 문제가 발생할 것임
+
+<br>
