@@ -1,0 +1,12 @@
+===== Custom Test Results =====
+Normal samples from train (30%): 73728
+Abnormal samples from test (10%): 14155
+Threshold: 2550.6909
+
+Accuracy: 0.1757
+Sensitivity: 0.9727
+Specificity: 0.0272
+F1 Score: 0.2705
+Confusion Matrix:
+[[ 2066 73891]
+ [  386 13769]]
