@@ -8,6 +8,7 @@ rehab은 rehabilitation의 줄임말로, '재활'이라는 뜻을 가지고 있�
 
 6~7월 동안 linear system과 파이토치 프레임워크 사용법을 공부했습니다. 따라서 파이토치 연습에도 매우 좋을테니, 여기 있는 모든 코드는 파이토치로 진행합니다. (물론 ML은 scikit-learn으로) 2025.07.28. 저녁 8시부터 다음 날 새벽 5시까지 (0), (1), (2), (3)을 진행하고, 2025.07.29. 오후 2시부터 밤 10시까지 나머지 것을 진행합니다. 그리고 앞으로 모든 주피터 노트북은 자세한 설명을 덧붙여서 진행할 겁니다.
 
+- 2025.07.29. 오후 6시에 모두 완료
 - (0) diabetes (tabular) : 이미 했음. report/diabetes 참고
     - DNN 
 - (1) number (sequence) : rehab_number.ipynb
@@ -21,12 +22,10 @@ rehab은 rehabilitation의 줄임말로, '재활'이라는 뜻을 가지고 있�
     - tabnet
 - (4) california house price (tabular) : rehab_california_house_price.ipynb
     - FCNN
-    - ML (KNN, LR, DT, RF, SVM, Logistic regression, XGB, Catboost, lightgbm)
+    - ML (KNN, LR, DT, RF, SVM, XGB, Catboost, lightgbm)
 - (5) Sisfall (sequence) : rehab_Sisfall.ipynb
-    - autoencoder based ConvNet (FCNN)
-    - latent space + transfer learning of FCNN
+    - autoencoder based FCNN
 - (6) weather (sequence) : rehab_weather.ipynb
-    - CNN-DNN
-    - GRU
+    - LSTM
     - Residual Conn + Deep Conv
 
