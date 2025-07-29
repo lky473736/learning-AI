@@ -15,10 +15,7 @@ rehab은 rehabilitation의 줄임말로, '재활'이라는 뜻을 가지고 있�
     - CNN-DNN
     - CNN-LSTM
 - (2) EMG (sequence) : rehab_EMG.ipynb
-    - CNN-DNN (pure)
     - CNN-LSTM (pure)
-    - DeepConv + residual conn (pure)
-    - Data Augmentation (Jittering) 추가 -> CNN-DNN
 - (3) abalone (tabular) : rehab_abalone.ipynb
     - FCNN 
     - tabnet
@@ -29,8 +26,7 @@ rehab은 rehabilitation의 줄임말로, '재활'이라는 뜻을 가지고 있�
     - autoencoder based ConvNet (FCNN)
     - latent space + transfer learning of FCNN
 - (6) weather (sequence) : rehab_weather.ipynb
-    - CNN
-    - LSTM
+    - CNN-DNN
     - GRU
-    - BiGRU
+    - Residual Conn + Deep Conv
 
