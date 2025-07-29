@@ -11,12 +11,13 @@ rehab은 rehabilitation의 줄임말로, '재활'이라는 뜻을 가지고 있�
 - (0) diabetes (tabular) : 이미 했음. report/diabetes 참고
     - DNN 
 - (1) number (sequence) : rehab_number.ipynb
-    - split_seqeunces (sliding window) + ConvNet
+    - split_seqeunces (sliding window) 
     - CNN-DNN
     - CNN-LSTM
 - (2) EMG (sequence) : rehab_EMG.ipynb
     - CNN-DNN (pure)
     - CNN-LSTM (pure)
+    - DeepConv + residual conn (pure)
     - Data Augmentation (Jittering) 추가 -> CNN-DNN
 - (3) abalone (tabular) : rehab_abalone.ipynb
     - FCNN 
